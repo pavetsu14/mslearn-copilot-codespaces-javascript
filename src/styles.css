@@ -122,4 +122,35 @@ a:hover {
 img.socialIcon {
   height: 30px;
   width: 30px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  filter: grayscale(20%);
+}
+
+img.socialIcon:hover {
+  transform: translateY(-8px) scale(1.2) rotate(5deg);
+  filter: grayscale(0%) drop-shadow(0 10px 15px rgba(78, 86, 126, 0.4));
+}
+
+img.socialIcon:active {
+  transform: translateY(-2px) scale(1.1);
+}
+
+/* Pulse animation on hover */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(78, 86, 126, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(78, 86, 126, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(78, 86, 126, 0);
+  }
+}
+
+img.socialIcon:hover {
+  animation: pulse-glow 1.5s infinite;
+  transform: translateY(-8px) scale(1.2) rotate(5deg);
+  filter: grayscale(0%) drop-shadow(0 10px 15px rgba(78, 86, 126, 0.4));
 }
