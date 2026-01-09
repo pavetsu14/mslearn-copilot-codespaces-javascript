@@ -11,6 +11,8 @@ import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import Home from "./Components/Home";
 import Portfolio from "./Components/Portfolio";
+import ApiDemo from "./Components/ApiDemo";
+import SimpleForm from "./Components/SimpleForm";
 
 import "./styles.css";
 
@@ -44,7 +46,9 @@ const App = () => {
       <Header />
       <Home name={siteProps.name} title={siteProps.title} />
       <About />
+      <SimpleForm />
       <Portfolio />
+      <ApiDemo />
       <Footer {...siteProps} primaryColor={primaryColor} secondaryColor={secondaryColor} />
     </div>
   );
