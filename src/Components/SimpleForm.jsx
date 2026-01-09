@@ -11,13 +11,28 @@ const SimpleForm = () => {
     e.preventDefault();
     
     try {
-      const response = await fetch('http://localhost:3001/generate', {
-        method: 'POST',
+      // Construct API URL based on environment
+      let apiUrl;
+      if (window.location.hostname === 'localhost') {
+        apiUrl = 'http://localhost:3001/generate';
+      } else {
+        // For Codespaces: replace port in hostname
+        const apiHost = window.location.hostname.replace(/-1234\./, '-3001.');
+        apiUrl = `${window.location.protocol}//${apiHost}/generate`;
+      }
+      
+      console.log('API URL:', apiUrl); // Debug logging
+      
+      const response = await fetch(apiUrl, {        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ text: inputValue })
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       
       const data = await response.json();
       const resultDiv = document.getElementById('result');
@@ -27,6 +42,7 @@ const SimpleForm = () => {
       
       setInputValue("");
     } catch (error) {
+      console.error('Fetch error:', error); // Debug logging
       const resultDiv = document.getElementById('result');
       if (resultDiv) {
         resultDiv.textContent = `Error: ${error.message}`;

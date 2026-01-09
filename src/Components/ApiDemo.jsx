@@ -29,7 +29,19 @@ const ApiDemo = () => {
     setError(null);
 
     try {
-      const res = await fetch('http://localhost:3001/api/data', {
+      // Construct API URL based on environment
+      let apiUrl;
+      if (window.location.hostname === 'localhost') {
+        apiUrl = 'http://localhost:3001/api/data';
+      } else {
+        // For Codespaces: replace port in hostname
+        const apiHost = window.location.hostname.replace(/-1234\./, '-3001.');
+        apiUrl = `${window.location.protocol}//${apiHost}/api/data`;
+      }
+      
+      console.log('API URL:', apiUrl); // Debug logging
+      
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,10 +49,15 @@ const ApiDemo = () => {
         body: JSON.stringify({ data: formData })
       });
 
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
       const data = await res.json();
       setResponse(data);
       setFormData({ name: "", email: "", message: "" });
     } catch (err) {
+      console.error('Fetch error:', err); // Debug logging
       setError(err.message);
     } finally {
       setLoading(false);
